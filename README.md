@@ -26,6 +26,7 @@ Construir uma plataforma de observabilidade capaz de:
                  +-------------+
                        |
                        |
+		       |
                  +-------------+
                  |  Backend    |
                  | Node.js API |
