@@ -1,4 +1,5 @@
-name: CI
+name: CI - LGTM Observability Platform
+
 
 on:
   push:
@@ -14,18 +15,34 @@ jobs:
 
   build:
 
+    name: Build Docker Images
+
     runs-on: ubuntu-latest
 
 
     steps:
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
 
-    - name: Docker compose build
-      run: docker-compose build
+
+      - name: Docker Build Backend
+        run: |
+          docker build \
+          -t lgtm-backend \
+          ./app/backend
 
 
-    - name: Validate containers
-      run: docker-compose config
+
+      - name: Docker Build Frontend
+        run: |
+          docker build \
+          -t lgtm-frontend \
+          ./app/frontend
+
+
+
+      - name: Validate Docker Compose
+        run: |
+          docker compose config
