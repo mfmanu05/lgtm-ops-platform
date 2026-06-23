@@ -1,0 +1,116 @@
+services:
+
+  backend:
+    build:
+      context: ./app/backend
+
+    container_name: lgtm-backend
+
+    ports:
+      - "3000:3000"
+
+    networks:
+      - lgtm-network
+
+
+  frontend:
+    build:
+      context: ./app/frontend
+
+    container_name: lgtm-frontend
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      - backend
+
+    networks:
+      - lgtm-network
+
+
+  loki:
+
+    image: grafana/loki:3.0.0
+
+    container_name: loki
+
+    ports:
+      - "3100:3100"
+
+
+    volumes:
+      - ./observability/loki/loki.yaml:/etc/loki/loki.yaml
+
+
+    command:
+      - -config.file=/etc/loki/local-config.yaml
+
+
+    networks:
+      - lgtm-network
+
+  alloy:
+
+    image: grafana/alloy:latest
+
+    container_name: alloy
+
+
+    volumes:
+
+      - ./observability/alloy/config.alloy:/etc/alloy/config.alloy
+
+      - /var/run/docker.sock:/var/run/docker.sock
+
+
+    command:
+
+      - run
+      - /etc/alloy/config.alloy
+
+
+    depends_on:
+
+      - loki
+
+
+    networks:
+
+      - lgtm-network
+
+
+  grafana:
+
+    image: grafana/grafana:latest
+
+    container_name: grafana
+
+
+    ports:
+
+      - "3001:3000"
+
+
+    volumes:
+
+      - grafana-storage:/var/lib/grafana
+
+
+    depends_on:
+
+      - loki
+
+
+    networks:
+
+      - lgtm-network
+
+networks:
+
+  lgtm-network:
+    driver: bridge
+
+volumes:
+
+  grafana-storage:

@@ -10,10 +10,9 @@ const [data,setData] = useState(null);
 
 async function generateData(){
 
- const response =
- await fetch(
- "http://localhost:3000/api/generate"
- );
+const response = await fetch(
+ "/api/generate"
+);
 
  const result =
  await response.json();
