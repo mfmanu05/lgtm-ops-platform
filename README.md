@@ -20,7 +20,6 @@ Construir uma plataforma de observabilidade capaz de:
 
 # 🏗️ Arquitetura
 
-
                  +-------------+
                  |  Frontend   |
                  | React/Vite  |
