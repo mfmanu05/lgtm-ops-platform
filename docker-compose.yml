@@ -9,8 +9,21 @@ services:
     ports:
       - "3000:3000"
 
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:3000"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
     networks:
       - lgtm-network
+
 
 
   frontend:
@@ -29,6 +42,7 @@ services:
       - lgtm-network
 
 
+
   loki:
 
     image: grafana/loki:3.0.0
@@ -38,17 +52,16 @@ services:
     ports:
       - "3100:3100"
 
-
     volumes:
       - ./observability/loki/loki.yaml:/etc/loki/loki.yaml
 
-
     command:
-      - -config.file=/etc/loki/local-config.yaml
-
+      - -config.file=/etc/loki/loki.yaml
 
     networks:
       - lgtm-network
+
+
 
   alloy:
 
@@ -56,28 +69,20 @@ services:
 
     container_name: alloy
 
-
     volumes:
-
       - ./observability/alloy/config.alloy:/etc/alloy/config.alloy
-
       - /var/run/docker.sock:/var/run/docker.sock
 
-
     command:
-
       - run
       - /etc/alloy/config.alloy
 
-
     depends_on:
-
       - loki
 
-
     networks:
-
       - lgtm-network
+
 
 
   grafana:
@@ -86,30 +91,26 @@ services:
 
     container_name: grafana
 
-
     ports:
-
       - "3001:3000"
 
-
     volumes:
-
       - grafana-storage:/var/lib/grafana
 
-
     depends_on:
-
       - loki
 
-
     networks:
-
       - lgtm-network
+
+
 
 networks:
 
   lgtm-network:
     driver: bridge
+
+
 
 volumes:
 
