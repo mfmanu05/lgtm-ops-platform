@@ -1,6 +1,5 @@
 name: CI - LGTM Observability Platform
 
-
 on:
   push:
     branches:
@@ -13,9 +12,7 @@ on:
 
 jobs:
 
-  build:
-
-    name: Build Docker Images
+  build-and-test:
 
     runs-on: ubuntu-latest
 
@@ -27,22 +24,69 @@ jobs:
 
 
 
-      - name: Docker Build Backend
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+
+
+      - name: Install backend dependencies
+        working-directory: app/backend
+        run: npm ci
+
+
+
+      - name: Install frontend dependencies
+        working-directory: app/frontend
+        run: npm ci
+
+
+
+      - name: Build Docker images
         run: |
-          docker build \
-          -t lgtm-backend \
-          ./app/backend
+          docker compose build
 
 
 
-      - name: Docker Build Frontend
+      - name: Start stack
         run: |
-          docker build \
-          -t lgtm-frontend \
-          ./app/frontend
+          docker compose up -d
 
 
 
-      - name: Validate Docker Compose
+      - name: Wait containers
         run: |
-          docker compose config
+          sleep 20
+
+
+
+      - name: Check running containers
+        run: |
+          docker ps
+
+
+
+      - name: Test backend API
+        run: |
+          curl --fail http://localhost:3000/api/generate
+
+
+
+      - name: Test frontend
+        run: |
+          curl --fail http://localhost:8080
+
+
+
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          docker compose logs
+
+
+
+      - name: Shutdown
+        if: always()
+        run: |
+          docker compose down
