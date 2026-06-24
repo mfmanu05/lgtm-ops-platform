@@ -53,7 +53,12 @@ jobs:
         run: |
           docker compose up -d
 
+      
+      - name: Wait containers
+        run: |
+          sleep 20
 
+      
       - name: Check running containers
         run: |
           docker ps
