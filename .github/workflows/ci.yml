@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
 
 
@@ -52,13 +52,6 @@ jobs:
       - name: Start stack
         run: |
           docker compose up -d
-
-
-
-      - name: Wait containers
-        run: |
-          sleep 20
-
 
 
       - name: Check running containers
