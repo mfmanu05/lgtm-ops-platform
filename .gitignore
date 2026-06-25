@@ -1,10 +1,24 @@
 # Node
-node_modules/
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+
+# Terraform lock pode ficar versionadonode_modules/
 npm-debug.log*
 
 # Build
 dist/
 build/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+
+# Terraform lock pode ficar versionado
 
 # Environment
 .env
