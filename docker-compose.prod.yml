@@ -1,0 +1,116 @@
+services:
+
+  backend:
+    image: mfmanu05/lgtm-backend:latest
+     
+    container_name: lgtm-backend
+
+    ports:
+      - "3000:3000"
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:3000"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+    networks:
+      - lgtm-network
+
+
+
+  frontend:
+    image: mfmanu05/lgtm-frontend:latest
+
+
+    container_name: lgtm-frontend
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      - backend
+
+    networks:
+      - lgtm-network
+
+
+
+  loki:
+
+    image: grafana/loki:3.0.0
+
+    container_name: loki
+
+    ports:
+      - "3100:3100"
+
+    volumes:
+      - ./observability/loki/loki.yaml:/etc/loki/loki.yaml
+
+    command:
+      - -config.file=/etc/loki/loki.yaml
+
+    networks:
+      - lgtm-network
+
+
+
+  alloy:
+
+    image: grafana/alloy:latest
+
+    container_name: alloy
+
+    volumes:
+      - ./observability/alloy/config.alloy:/etc/alloy/config.alloy
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    command:
+      - run
+      - /etc/alloy/config.alloy
+
+    depends_on:
+      - loki
+
+    networks:
+      - lgtm-network
+
+
+
+  grafana:
+
+    image: grafana/grafana:latest
+
+    container_name: grafana
+
+    ports:
+      - "3001:3000"
+
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+    depends_on:
+      - loki
+
+    networks:
+      - lgtm-network
+
+
+
+networks:
+
+  lgtm-network:
+    driver: bridge
+
+
+
+volumes:
+
+  grafana-storage:
