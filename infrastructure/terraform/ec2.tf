@@ -1,7 +1,7 @@
 resource "aws_instance" "lgtm" {
 
 
-  ami = "ami-0c02fb55956c7d316"
+  ami = data.aws_ami.ubuntu.id
 
 
   instance_type = var.instance_type
