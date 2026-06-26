@@ -31,7 +31,7 @@ jobs:
 
       - name: Verify DockerHub username
         run: |
-          echo "DockerHub user: ${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "DockerHub user: ${{ env.DOCKERHUB_USERNAME }}"
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
