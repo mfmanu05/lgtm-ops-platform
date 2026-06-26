@@ -31,10 +31,6 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Verify DockerHub username
-          run: |
-          echo "DockerHub user: ${{ secrets.DOCKERHUB_USERNAME }}"
-
       - name: Build and Push Backend
         uses: docker/build-push-action@v6
         with:
