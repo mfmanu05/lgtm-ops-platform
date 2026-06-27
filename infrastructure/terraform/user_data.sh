@@ -64,18 +64,15 @@ chown -R ubuntu:ubuntu /home/ubuntu/.ssh
 
 
 echo "=== Clonando aplicação ==="
+mkdir -p /opt/lgtm
 
-cd /opt
+chown ubuntu:ubuntu /opt
+chown -R ubuntu:ubuntu /opt/lgtm
 
 
 sudo -u ubuntu git clone \
 https://github.com/mfmanu05/lgtm-ops-platform.git \
-lgtm
-
-
-echo "=== Ajustando permissões da aplicação ==="
-
-chown -R ubuntu:ubuntu /opt/lgtm
+/opt/lgtm
 
 
 echo "=== Subindo stack ==="
