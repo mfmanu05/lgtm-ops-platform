@@ -1,14 +1,24 @@
 name: Build and Push Images
 
 on:
-  push:
+
+  workflow_run:
+
+    workflows:
+      - CI - LGTM Observability Platform
+
     branches:
       - main
 
+    types:
+      - completed
 
 jobs:
 
   build:
+
+
+    if: github.event.workflow_run.conclusion == 'success'
 
     runs-on: ubuntu-latest
 
@@ -19,6 +29,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
 
 
