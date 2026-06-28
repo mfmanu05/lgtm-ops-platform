@@ -63,7 +63,7 @@ Construir uma plataforma de observabilidade capaz de:
 
 ---
 
-# 🧰 Tecnologias
+# 🧰  Tecnologias
 
 
 ## Aplicação
