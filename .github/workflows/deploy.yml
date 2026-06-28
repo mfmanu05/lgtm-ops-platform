@@ -25,7 +25,7 @@ jobs:
 
         with:
 
-          host: ${{ vars.EC2_HOST }}
+          host: ${{ secrets..EC2_HOST }}
 
           username: ${{ secrets.EC2_USER }}
 
@@ -35,7 +35,7 @@ jobs:
 
             cd /opt/lgtm/lgtm-ops-platform
 
-            echo "=== Pull novas imagens ==="
+            echo "=== Pull  novas  imagens ==="
 
             docker compose \
               -f docker-compose.prod.yml \
@@ -49,7 +49,7 @@ jobs:
               down
 
 
-            echo "=== Subindo nova versão ==="
+            echo "=== Subindo nova versao ==="
 
             docker compose \
               -f docker-compose.prod.yml \
