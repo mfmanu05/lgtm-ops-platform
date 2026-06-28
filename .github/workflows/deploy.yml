@@ -33,7 +33,7 @@ jobs:
 
           script: |
 
-            cd /opt/lgtm/lgtm-ops-platform
+            cd /opt/lgtm/
 
             echo "=== Pull  novas  imagens ==="
 
