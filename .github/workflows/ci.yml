@@ -65,15 +65,15 @@ jobs:
 
 
 
-      - name: Test backend API
+      - name: Test backend through nginx
         run: |
-          curl --fail api/generate
+          curl --fail http://localhost/api/generate
 
 
 
       - name: Test frontend
         run: |
-          curl --fail localhost
+          curl --fail http://localhost
 
 
       - name: Show logs on failure
