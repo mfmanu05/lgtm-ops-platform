@@ -67,14 +67,13 @@ jobs:
 
       - name: Test backend API
         run: |
-          curl --fail http://localhost:3000/api/generate
+          curl --fail api/generate
 
 
 
       - name: Test frontend
         run: |
-          curl --fail http://localhost:8080
-
+          curl --fail localhost
 
 
       - name: Show logs on failure
