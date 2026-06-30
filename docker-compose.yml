@@ -7,7 +7,7 @@ services:
     container_name: lgtm-backend
 
     ports:
-      - "3000:3000"
+      - "3000"
 
     healthcheck:
       test:
@@ -33,7 +33,7 @@ services:
     container_name: lgtm-frontend
 
     ports:
-      - "8080:80"
+      - "80:80"
 
     depends_on:
       - backend
@@ -92,7 +92,7 @@ services:
     container_name: grafana
 
     ports:
-      - "3001:3000"
+      - "3000"
 
     volumes:
       - grafana-storage:/var/lib/grafana
