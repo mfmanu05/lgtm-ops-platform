@@ -35,6 +35,11 @@ jobs:
 
             cd /opt/lgtm/
 
+            echo "=== Atualizando código ==="
+
+            git fetch origin main
+            git reset --hard origin/main
+
             echo "=== Pull  novas  imagens ==="
 
             docker compose \
@@ -53,7 +58,7 @@ jobs:
 
             docker compose \
               -f docker-compose.prod.yml \
-              up -d
+              up -d --force-recreate
 
 
             echo "=== Limpando imagens antigas ==="
