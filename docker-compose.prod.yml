@@ -74,7 +74,7 @@ services:
 
   grafana:
     environment:
-      - GF_SERVER_ROOT_URL=http://seudominio.com/grafana
+      - GF_SERVER_ROOT_URL=http://grafana.mfmanu.shop
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
 
     image: grafana/grafana:latest
