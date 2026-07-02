@@ -74,14 +74,14 @@ services:
 
   grafana:
     environment:
+      - GF_SERVER_DOMAIN=grafana.mfmanu.shop
       - GF_SERVER_ROOT_URL=http://grafana.mfmanu.shop
-      - GF_SERVER_SERVE_FROM_SUB_PATH=true
 
     image: grafana/grafana:latest
 
     container_name: grafana
 
-    ports:
+    expose:
       - "3000"
 
     volumes:
