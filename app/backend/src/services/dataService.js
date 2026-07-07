@@ -1,29 +1,63 @@
 const { faker } = require("@faker-js/faker");
 
+const {
 
-exports.create = ()=>{
+    fakeDataGenerated,
+
+    generatedRecords,
+
+    dataGenerationTime,
+
+    apiRequests,
+
+    businessErrors
+
+} = require("../observability/business.metrics");
 
 
-return {
+exports.create = (quantity = 1) => {
 
-    id:faker.string.uuid(),
+    const end = dataGenerationTime.startTimer();
 
-    user:
-        faker.person.fullName(),
+    try {
 
-    email:
-        faker.internet.email(),
+        apiRequests.inc({
+            endpoint: "/api/data"
+        });
 
-    amount:
-        faker.number.int({
-            min:10,
-            max:1000
-        }),
+        const data = {
 
-    created:
-        new Date()
+            id: faker.string.uuid(),
 
-};
+            user: faker.person.fullName(),
 
+            email: faker.internet.email(),
+
+            amount: faker.number.int({
+                min: 10,
+                max: 1000
+            }),
+
+            created: new Date()
+
+        };
+
+        fakeDataGenerated.inc();
+
+        generatedRecords.inc();
+
+        end();
+
+        return data;
+
+    } catch (err) {
+
+        businessErrors.inc();
+
+        end();
+
+        throw err;
+
+    }
 
 };
