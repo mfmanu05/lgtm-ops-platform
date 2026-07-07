@@ -1,29 +1,48 @@
 const client = require("prom-client");
 const { register } = require("./metrics");
 
-// Quantidade de dados gerados
+/*
+=======================================
+Business Metrics
+=======================================
+*/
+
 const fakeDataGenerated = new client.Counter({
     name: "lgtm_fake_data_generated_total",
-    help: "Total de dados fictícios gerados"
+    help: "Total fake records generated"
 });
 
-// Erros de negócio
 const businessErrors = new client.Counter({
     name: "lgtm_business_errors_total",
-    help: "Total de erros de negócio"
+    help: "Business errors"
 });
 
-// Usuários ativos
 const activeUsers = new client.Gauge({
     name: "lgtm_active_users",
-    help: "Usuários ativos simulados"
+    help: "Current active users"
 });
 
-// Tempo de geração de dados
 const dataGenerationTime = new client.Histogram({
     name: "lgtm_data_generation_seconds",
-    help: "Tempo de geração dos dados",
-    buckets: [0.01,0.05,0.1,0.2,0.5,1,2]
+    help: "Time spent generating data",
+    buckets: [0.01,0.05,0.1,0.3,0.5,1,2]
+});
+
+/*
+=======================================
+NEW
+=======================================
+*/
+
+const generatedRecords = new client.Counter({
+    name: "lgtm_generated_records_total",
+    help: "Total generated records"
+});
+
+const apiRequests = new client.Counter({
+    name: "lgtm_api_requests_total",
+    help: "Total API requests",
+    labelNames:["endpoint"]
 });
 
 register.registerMetric(fakeDataGenerated);
@@ -31,9 +50,21 @@ register.registerMetric(businessErrors);
 register.registerMetric(activeUsers);
 register.registerMetric(dataGenerationTime);
 
+register.registerMetric(generatedRecords);
+register.registerMetric(apiRequests);
+
 module.exports = {
+
     fakeDataGenerated,
+
     businessErrors,
+
     activeUsers,
-    dataGenerationTime
+
+    dataGenerationTime,
+
+    generatedRecords,
+
+    apiRequests
+
 };

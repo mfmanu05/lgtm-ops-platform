@@ -1,11 +1,18 @@
 const logger = require("../logging/logger");
 
+const {
+    activeUsers,
+    businessErrors
+} = require("../observability/business.metrics");
+
 // =========================
 // Retorna erro 500
 // =========================
 exports.error = (req, res) => {
 
     logger.error("Debug endpoint: Internal Server Error");
+
+    businessErrors.inc();
 
     res.status(500).json({
         success: false,
@@ -43,11 +50,7 @@ exports.cpu = (req, res) => {
         Math.sqrt(Math.random());
     }
 
-    res.json({
-        success: true,
-        message: "CPU stress completed."
-    });
-
+    logger.warn("CPU stress completed.");
 };
 
 // =========================
@@ -61,9 +64,16 @@ exports.memory = (req, res) => {
 
     allocations.push(Buffer.alloc(50 * 1024 * 1024));
 
+    const users = Math.floor(Math.random() * 100);
+
+    activeUsers.set(users);
+
+    logger.info(`Active users simulated: ${users}`);
+
     res.json({
         success: true,
-        allocated: allocations.length * 50 + " MB"
+        allocated: allocations.length * 50 + " MB",
+        activeUsers: users
     });
 
 };
@@ -74,6 +84,8 @@ exports.memory = (req, res) => {
 exports.clearMemory = (req, res) => {
 
     allocations = [];
+
+    activeUsers.set(0);
 
     global.gc && global.gc();
 
