@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 
+require("./observability/business.metrics");
+
 const metricsMiddleware = require("./middlewares/metrics.middleware");
 const { register } = require("./observability/metrics");
 
