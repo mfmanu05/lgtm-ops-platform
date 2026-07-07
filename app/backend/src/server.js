@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 
+const metricsMiddleware = require("./middlewares/metrics.middleware");
+const { register } = require("./observability/metrics");
+
 const app = express();
 
 app.use(
@@ -10,6 +13,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use(metricsMiddleware);
 
 
 app.get("/health", (req,res)=>{
@@ -19,8 +23,15 @@ app.get("/health", (req,res)=>{
     });
 });
 
-
 app.use("/api", require("./routes/api"));
+
+app.get("/metrics", async (req, res) => {
+  res.set("Content-Type", register.contentType);
+  res.end(await register.metrics());
+});
+
+
+
 
 
 const PORT = 3000;
