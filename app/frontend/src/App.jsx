@@ -11,7 +11,7 @@ const [data,setData] = useState(null);
 async function generateData(){
 
 const response = await fetch(
- "/api/generate"
+ "/api/data"
 );
 
  const result =
