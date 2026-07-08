@@ -11,11 +11,7 @@ const controller = require("../controllers/dataController");
 const debug = require("../controllers/debugController");
 
 
-router.get(
-    "/generate",
-    controller.generate
-);
-
+router.get("/data", controller.generate);
 
 router.get("/debug/error", debug.error);
 
