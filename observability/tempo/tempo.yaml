@@ -18,6 +18,17 @@ overrides:
   defaults:
     metrics_generator:
       processors: []
+
+
 compactor:
   compaction:
-    block_retention: 336h # 14 dias (padrão)
+    block_size_bytes: 524288000          # 500MB (blocos menores para não sobrecarregar I/O local)
+    compacted_block_retention: 1h
+    compaction_window: 1h
+  retention_tables:
+    v2:
+      # Escolha o tempo ideal para o seu disco (ex: 48h, 72h, 7d)
+      block_retention: 72h               
+  ring:
+    kvstore:
+      store: memberlist
