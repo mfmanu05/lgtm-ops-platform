@@ -32,22 +32,21 @@ services:
       - lgtm-network
 
   tempo:
-    image: grafana/tempo:latest
+    image: grafana/tempo:2.5.0
     container_name: tempo
-
-    restart: unless-stopped
 
     command:
       - "-config.file=/etc/tempo/tempo.yaml"
 
     volumes:
-      - ./observability/tempo/tempo.yaml:/etc/tempo/tempo.yaml
-      -  tempo-data:/tmp/tempo
+      - ./observability/tempo/tempo.yaml:/etc/tempo/tempo.yaml:ro
+      - tempo-data:/var/tempo
+
+    restart: unless-stopped
 
     ports:
-      - "3200:3200"   # API Tempo
-      - "4318:4318"   # OTLP HTTP
-      - "4317:4317"   # OTLP gRPC
+      - "3200:3200"
+      - "4318:4318"
 
     networks:
       - lgtm-network

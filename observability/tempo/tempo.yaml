@@ -5,8 +5,15 @@ distributor:
   receivers:
     otlp:
       protocols:
-        grpc: "distributor:4317"
-        http: "distributor:4318"
+        grpc:
+        http:
+
+ingester:
+  max_block_duration: 5m
+
+compactor:
+  compaction:
+    block_retention: 24h
 
 storage:
   trace:
@@ -15,20 +22,4 @@ storage:
       path: /tmp/tempo/traces
 
 overrides:
-  defaults:
-    metrics_generator:
-      processors: []
-
-
-compactor:
-  compaction:
-    block_size_bytes: 524288000          # 500MB (blocos menores para não sobrecarregar I/O local)
-    compacted_block_retention: 1h
-    compaction_window: 1h
-  retention_tables:
-    v2:
-      # Escolha o tempo ideal para o seu disco (ex: 48h, 72h, 7d)
-      block_retention: 72h               
-  ring:
-    kvstore:
-      store: memberlist
+  defaults: {}
