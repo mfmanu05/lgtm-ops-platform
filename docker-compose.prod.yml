@@ -31,6 +31,28 @@ services:
     networks:
       - lgtm-network
 
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+
+    restart: unless-stopped
+
+    command:
+      - "-config.file=/etc/tempo/tempo.yaml"
+
+    volumes:
+      - ./observability/tempo/tempo.yaml:/etc/tempo/tempo.yaml
+      -  tempo-data:/tmp/tempo
+
+    ports:
+      - "3200:3200"   # API Tempo
+      - "4318:4318"   # OTLP HTTP
+      - "4317:4317"   # OTLP gRPC
+
+    networks:
+      - lgtm-network
+
+
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
 
@@ -182,3 +204,5 @@ networks:
 volumes:
 
   grafana-storage:
+
+  tempo-data:
