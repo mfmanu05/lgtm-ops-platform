@@ -5,8 +5,8 @@ distributor:
   receivers:
     otlp:
       protocols:
-        grpc:
-        http:
+        grpc: "distributor:4317"
+        http: "distributor:4318"
 
 storage:
   trace:
@@ -18,7 +18,6 @@ overrides:
   defaults:
     metrics_generator:
       processors: []
-
 compactor:
   compaction:
-    block_retention: 24h
+    block_retention: 336h # 14 dias (padrão)
