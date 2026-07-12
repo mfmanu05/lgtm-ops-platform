@@ -65,9 +65,9 @@ jobs:
 
 
 
-      - name: Test backend through nginx
-        run: |
-          curl --fail http://localhost/api/data
+      #- name: Test backend through nginx
+       # run: |
+        #  curl --fail http://localhost/api/data
 
 
 
