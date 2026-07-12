@@ -1,4 +1,5 @@
 const { faker } = require("@faker-js/faker");
+const { trace, SpanStatusCode } = require("@opentelemetry/api");
 
 const {
 
@@ -69,7 +70,7 @@ exports.create = () => {
             span.recordException(err);
 
             span.setStatus({
-                code: 2
+                code: SpanStatusCode.ERROR
             });
 
             span.end();
