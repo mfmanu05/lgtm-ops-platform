@@ -15,49 +15,71 @@ const {
 } = require("../observability/business.metrics");
 
 
-exports.create = (quantity = 1) => {
+exports.create = () => {
 
-    const end = dataGenerationTime.startTimer();
+    const tracer = trace.getTracer("lgtm-api");
 
-    try {
+    return tracer.startActiveSpan("generate_fake_data", (span) => {
 
-        apiRequests.inc({
-            endpoint: "/api/data"
-        });
+        const end = dataGenerationTime.startTimer();
 
-        const data = {
+        try {
 
-            id: faker.string.uuid(),
+            apiRequests.inc({
+                endpoint: "/api/generate"
+            });
 
-            user: faker.person.fullName(),
+            const data = {
 
-            email: faker.internet.email(),
+                id: faker.string.uuid(),
 
-            amount: faker.number.int({
-                min: 10,
-                max: 1000
-            }),
+                user: faker.person.fullName(),
 
-            created: new Date()
+                email: faker.internet.email(),
 
-        };
+                amount: faker.number.int({
+                    min:10,
+                    max:1000
+                }),
 
-        fakeDataGenerated.inc();
+                created:new Date()
 
-        generatedRecords.inc();
+            };
 
-        end();
+            fakeDataGenerated.inc();
 
-        return data;
+            generatedRecords.inc();
 
-    } catch (err) {
+            span.setAttribute("records.generated", 1);
 
-        businessErrors.inc();
+            span.setAttribute("business.operation", "generate_fake_data");
 
-        end();
+            span.addEvent("Fake data generated");
 
-        throw err;
+            end();
 
-    }
+            span.end();
+
+            return data;
+
+        } catch(err){
+
+            businessErrors.inc();
+
+            span.recordException(err);
+
+            span.setStatus({
+                code: 2
+            });
+
+            span.end();
+
+            end();
+
+            throw err;
+
+        }
+
+    });
 
 };

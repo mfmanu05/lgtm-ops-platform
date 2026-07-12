@@ -15,15 +15,14 @@ url: "http://alloy:4318/v1/traces"
 });
 
 const sdk = new NodeSDK({
-
-traceExporter,
-
-instrumentations: [
-
-getNodeAutoInstrumentations()
-
-],
-
+  traceExporter,
+  instrumentations: [
+    getNodeAutoInstrumentations({
+      "@opentelemetry/instrumentation-fs": {
+        enabled: false,
+      },
+    }),
+  ],
 });
 
 sdk.start();
