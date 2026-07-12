@@ -1,6 +1,11 @@
 const { NodeSDK } = require("@opentelemetry/sdk-node");
 
 const {
+  ConsoleSpanExporter,
+  SimpleSpanProcessor
+} = require("@opentelemetry/sdk-trace-base");
+
+const {
 getNodeAutoInstrumentations
 } = require("@opentelemetry/auto-instrumentations-node");
 
@@ -23,6 +28,14 @@ const sdk = new NodeSDK({
       },
     }),
   ],
+});
+
+sdk.configureTracerProvider((provider) => {
+    provider.addSpanProcessor(
+        new SimpleSpanProcessor(
+            new ConsoleSpanExporter()
+        )
+    );
 });
 
 sdk.start();
