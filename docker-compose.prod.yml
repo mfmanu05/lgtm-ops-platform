@@ -151,6 +151,10 @@ services:
 
     restart: unless-stopped
 
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+
     volumes:
       - ./observability/alloy/config.alloy:/etc/alloy/config.alloy
       - /var/run/docker.sock:/var/run/docker.sock
