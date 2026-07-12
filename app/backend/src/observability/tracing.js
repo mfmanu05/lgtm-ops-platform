@@ -10,7 +10,7 @@ OTLPTraceExporter
 
 const traceExporter = new OTLPTraceExporter({
 
-url: "http://tempo:4318/v1/traces"
+url: "http://alloy:4318/v1/traces"
 
 });
 
@@ -29,3 +29,11 @@ getNodeAutoInstrumentations()
 sdk.start();
 
 console.log("Tracing initialized");
+
+process.on("SIGTERM", async () => {
+  await sdk.shutdown();
+});
+
+process.on("SIGINT", async () => {
+  await sdk.shutdown();
+});
