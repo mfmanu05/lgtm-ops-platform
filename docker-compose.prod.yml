@@ -173,7 +173,7 @@ services:
   grafana:
     environment:
       - GF_SERVER_DOMAIN=grafana.mfmanu.shop
-      - GF_SERVER_ROOT_URL=http://grafana.mfmanu.shop
+      - GF_SERVER_ROOT_URL=http://grafana.mussulo30.shop
 
     image: grafana/grafana:latest
 
