@@ -51,7 +51,7 @@ systemctl enable docker
 systemctl start docker
 
 
-echo "=== Configurando usuario ubuntu ==="
+echo "=== Configurando usuario ubuntu na EC2 ==="
 
 # libera docker sem sudo
 usermod -aG docker ubuntu
@@ -75,7 +75,7 @@ https://github.com/mfmanu05/lgtm-ops-platform.git \
 /opt/lgtm
 
 
-echo "=== Subindo stack ==="
+echo "=== Subindo stack LGTM ==="
 
 cd /opt/lgtm
 
