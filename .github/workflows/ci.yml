@@ -1,4 +1,4 @@
-name: CI - LGTM Observability Platform
+name: CI - Check
 
 on:
   push:
