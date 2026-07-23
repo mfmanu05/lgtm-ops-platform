@@ -8,7 +8,7 @@ variable "aws_region" {
 variable "instance_type" {
   description = "EC2 size"
   type        = string
-  default     = "t3.micro"
+  default     = "c7a.xlarge"
 }
 
 
